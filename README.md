@@ -1,11 +1,21 @@
 # Fate App
 
-this is a personal proyect to create and store fate characters on local storage, it's a work in progress and a side  proyect to learn react/nextjs you are welcome to use it a improve upon it as you please, although nothing is to stop you if i said you can not dowload a public repo lol.
+this is a personal proyect to create and store fate characters on local storage, it's a work in progress and a side  proyect to learn react/nextjs focused on frontend. You are welcome to use it and improve upon it as you please, although nothing is to stop you if i said you can not dowload it, it's a public repo lol.
 
 ## ToDo
+List of things i will do
+- Make the ui pretier
+- Host it
+- make the character sheet printable
+- make a new character sheet design
 
+## What i want to do
+List of things i may do as a new proyect born from this one but in a new repo
 
-
+- Connect to a local database
+- Add a section for world building
+- Add a section for notes
+- Add a section for npcs
 
 ## About the framework
 
