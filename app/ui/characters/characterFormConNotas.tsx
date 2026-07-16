@@ -1,10 +1,9 @@
 'use client';
 
-import { CustomInput } from "@/app/ui/inputs/text"
 import Image from "next/image";
 import { Character } from "@/app/lib/definitions";
-import { SkillSelect } from "./skillSelect";
-import { Button } from "../button";
+import { SkillSelect } from "./SkillSelect";
+import { Button } from "../Button";
 // import { useActionState} from "react";
 import { createCharacter, State } from "@/app/lib/actions";
 import { use, useState } from "react";
@@ -28,7 +27,7 @@ export function CharacterForm({character} : CharacterFormProps){
     
     // al inidicar que el user puede ser Character o null, tengo que tener cuidado ya que los atributos pueden llegar a ser null
     // asi que hay que usar optional chaining, osea el ?
-    console.log(user?.name);
+    // console.log(user?.name);
 
     function handleSubmit(event : React.SubmitEvent<HTMLFormElement>){
         event.preventDefault();
@@ -46,7 +45,7 @@ export function CharacterForm({character} : CharacterFormProps){
                             {/* <input name="character_id" type="text" placeholder="id" className="w-full border-2 border-b-black "/> */}
                         </div>
                         <div className="col-span-4 md:col-span-3 grid gap-2">
-                            <input name="character_name" type="text" placeholder="name" className="w-full border-2 border-b-black " defaultValue={character?.name}/>
+                            <input name="character_name" type="text" placeholder="name" className="w-full border-2 border-b-black " defaultValue={character?.character_name}/>
 
                             <textarea name="character_description" id="" placeholder="description" className="w-full border-2 border-b-black "></textarea>
                         </div>

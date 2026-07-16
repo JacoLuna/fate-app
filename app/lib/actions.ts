@@ -1,3 +1,4 @@
+import { Character } from "./definitions";
 
 export type State = {
     errors?: {
@@ -56,6 +57,34 @@ export async function createCharacter(preState: State, formData:FormData) {
         }
     };
 }
-/* character_description
-refresh
- */
+
+function getCharacters(){
+    let localItem = localStorage.getItem("characters");
+    return localItem 
+        ? JSON.parse(localItem) 
+        : [];
+}
+
+function saveCharacters(characters : Character[]){
+    //faltaría controlar que realmetne hubo un cambio en la librería
+    localStorage.setItem("characters", JSON.stringify(characters));
+}
+
+function getCharacterById(characterId : Number | String){
+    return getCharacters().find( (ch : Character) => ch.id == characterId);
+}
+
+export function deleteCharacter(characterId : Number){
+    let characters : Character[] = getCharacters();
+    const character : Character | null = getCharacterById(characterId);
+    let characterDeleted = false;
+
+    if(character){
+        let i = characters.findIndex( (e) => e.id == characterId );
+        characters.splice(i, 1);
+        saveCharacters(characters);
+        characterDeleted = true;
+    }
+
+    return characterDeleted
+}

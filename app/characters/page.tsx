@@ -1,25 +1,38 @@
 "use client";
 
 import { Character } from "../lib/definitions"
-import { CharacterPill } from "../ui/characters/characterPill"
+import CharacterCard from "../ui/characters/CharacterCard";
+import { Button } from "../ui/Button";
+import { useEffect, useState } from "react";
 
-export default function Page(){
+export default function Page() {
 
-    let localItem = localStorage.getItem("characters");
-    const characters: Character[] = localItem 
-        ? JSON.parse(localItem) 
-        : [];
+    const [characters, setCharacters] = useState<Character[]>([]);
+
+    useEffect(() => {
+        const item = localStorage.getItem("characters");
+
+        if (item) {
+            setCharacters(JSON.parse(item));
+        }
+    }, []);
 
     return (
         <>
-            {characters.map( (ch) => (
-                <CharacterPill 
-                    key={ch.id} 
-                    characterId={ch.id}
-                />
-            ))}
+            <div className="flex justify-end">
+                <Button>
+                    <a href="characters/create">create character</a>
+                </Button>
+            </div>
 
-            <a href="characters/create">create character</a>
+            <div className="flex items-baseline">
+                {characters.map((ch) => (
+                    <CharacterCard
+                        key={ch.id}
+                        characterId={ch.id}
+                    />
+                ))}
+            </div>
         </>
     )
 

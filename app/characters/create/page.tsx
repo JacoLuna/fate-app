@@ -1,5 +1,6 @@
-import { CharacterForm } from "@/app/ui/characters/characterForm";
-import { characters } from "@/app/lib/mockdata";
+
+// import { characters } from "@/app/lib/mockdata";
+import { CharacterForm } from "@/app/ui/characters/CharacterForm";
 
 export default function Page(){
 

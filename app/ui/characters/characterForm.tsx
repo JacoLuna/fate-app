@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { Character } from "@/app/lib/definitions";
-import { SkillSelect } from "./skillSelect";
-import { Button } from "../button";
+import { Button } from "../Button";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { SkillSelect } from "./SkillSelect";
 
-export function CharacterForm(/* {characterId} : {characterId?: Number} */){
+export function CharacterForm(){
 
     const characterId = useSearchParams().get("id");
     let character : Character | null = null;
