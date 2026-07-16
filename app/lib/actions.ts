@@ -58,23 +58,23 @@ export async function createCharacter(preState: State, formData:FormData) {
     };
 }
 
-function getCharacters(){
+export function getCharacters(){
     let localItem = localStorage.getItem("characters");
     return localItem 
         ? JSON.parse(localItem) 
         : [];
 }
 
-function saveCharacters(characters : Character[]){
+export function saveCharacters(characters : Character[]){
     //faltaría controlar que realmetne hubo un cambio en la librería
     localStorage.setItem("characters", JSON.stringify(characters));
 }
 
-function getCharacterById(characterId : Number | String){
+export function getCharacterById(characterId : number){
     return getCharacters().find( (ch : Character) => ch.id == characterId);
 }
 
-export function deleteCharacter(characterId : Number){
+export function deleteCharacter(characterId : number){
     let characters : Character[] = getCharacters();
     const character : Character | null = getCharacterById(characterId);
     let characterDeleted = false;

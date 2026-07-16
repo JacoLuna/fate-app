@@ -5,11 +5,11 @@ import { SkillsEnum } from "@/types/enums";
     level: 1 | 2 | 3 | 4;
 } */
 
-/* type Skill = {
+type Skill = {
     //type: "average" | "fair" | "good" | "great" | "superb";
     modifier: 1 | 2 | 3 | 4 | 5
     name: SkillsEnum;
-} */
+}
 
 /* export type Character = {
     id: number;

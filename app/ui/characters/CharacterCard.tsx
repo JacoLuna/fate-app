@@ -6,24 +6,6 @@ import { Button } from "../Button";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { deleteCharacter } from "@/app/lib/actions";
 
-/**
- * id : number,
- * character_name : string,
- * character_description : string,
- * refresh : string,
- * aspects_1 : string, aspects_2 : string, aspects_3 : string, aspects_4 : string, aspects_5 : string,
- * skills_superb : string,
- * skills_great_1 : string, skills_great_2 : string,
- * skills_good_1 : string, skills_good_2 : string, skills_good_3 : string,
- * skills_fair_1 : string, skills_fair_2 : string, skills_fair_3 : string, skills_fair_4 : string,
- * skills_average_1 : string, skills_average_2 : string, skills_average_3 : string, skills_average_4 : string, skills_average_5 : string,
- * extras : string,
- * stunts : string,
- * stress_physical_1 : string, stress_physical_2 : string, stress_physical_3 : string, stress_physical_4 : string,
- * stress_mental_1 : string,stress_mental_2 : string,stress_mental_3 : string,stress_mental_4 : string,
- * consequences_1 : string, consequences_2 : string, consequences_3 : string, consequences_4 : string,
- */
-
 export default function CharacterCard({characterId} : {characterId: Number}) {
     let localItem = localStorage.getItem("characters");
     let character : Character | undefined;
@@ -118,11 +100,7 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
                     {/* setAspectsOpen((v) => { return !v}) */}
                     <button 
                         data-characterid={characterId} 
-                        onClick={(e : React.MouseEvent<HTMLElement>) => {
-                            console.log(Number(e.currentTarget.getAttribute("data-characterid")));
-                            console.log(characterId);
-                            setAspectsOpen((v) => { return !v});
-                        }  } 
+                        onClick={() => setAspectsOpen((v) => !v)} 
                         className="flex w-full items-center justify-between rounded-md px-1 py-1 text-left transition-colors hover:bg-black/[0.03]">
                         <span
                             className="text-[10px] font-semibold uppercase tracking-[0.2em]"

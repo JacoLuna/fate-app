@@ -1,17 +1,9 @@
 
-
-/* interface SelectProps extends React.ButtonHTMLAttributes<HTMLSelectElement> {
-    children: React.ReactNode;
-} */
-
-/* type skillSelectProps = {
-    selectClassName?: string
-    optionsClassName?: string
-} */
 interface skillSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement>{
     selectClassName?: string
     optionsClassName?: string
 }
+
 
 const skillsList = [
     {id: crypto.randomUUID(), name:""},
@@ -32,8 +24,8 @@ const skillsList = [
     {id: crypto.randomUUID(), name:"Resources"},
     {id: crypto.randomUUID(), name:"Shoot"},
     {id: crypto.randomUUID(), name:"Stealth"},
-    {id: crypto.randomUUID(), name: "Will"}
-] as const
+    {id: crypto.randomUUID(), name:"Will"}
+] as const;
 
 export function SkillSelect({ selectClassName, optionsClassName, ...rest} : skillSelectProps){
     return  <>
