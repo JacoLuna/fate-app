@@ -1,5 +1,4 @@
 
-// import { characters } from "@/app/lib/mockdata";
 import { CharacterForm } from "@/app/ui/characters/characterForm"
 import { Suspense } from "react"
 
