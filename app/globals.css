@@ -1,64 +1,46 @@
 @import "tailwindcss";
 
-/*
-Colors: #1C1B1A (ink), #F7F3EA (card stock cream), #B23A2F (sealing-wax red accent), #6B7A5E (sage for stunts), #D4CBB5 (aged paper border)
+/*#3a3939*/
 
-Type: display = "Fraunces" (serif with character, for name), body = "Inter", mono/utility = "JetBrains Mono" (for refresh number, stat-like)
-*/
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #f7f2e9; /*card stock cream*/
-  --ink: #1C1B1A; /*ink*/
-  --secondary: #B23A2F; /*wax*/
-  --terciary: #6B7A5E;/*green*/
-  --aged-paper: #D4CBB5;
+@theme {
+  --color-primary: #f7f2e9;
+  --color-secondary: #B23A2F;
+  --color-terciary: #3a3939;
+  --color-cyan: #55868C;
+  --color-twilight: #080357;
+  --color-ink: #1C1B1A;
+  --color-aged-paper: #D4CBB5;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-primary);
+  color: var(--color-ink);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .btn-primary {
-  height: 2.5rem; /* h-10 */
+  height: 2.5rem;
   display: flex;
-  align-items: center; /* items-center */
-  border-radius: 0.5rem; /* rounded-lg */
-  background-color: #B23A2F; /* bg-[#B23A2F] */
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: var(--color-secondary);
   padding-left: 1rem;
-  padding-right: 1rem; /* px-4 */
-  font-size: 0.875rem; /* text-sm */
+  padding-right: 1rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 500; /* font-medium */
-  color: #ffffff; /* text-white */
+  font-weight: 500;
+  color: var(--color-primary);
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms; /* transition-colors */
+  transition-duration: 150ms;
 }
 
 .btn-primary:hover {
-  background-color: #C2564B; /* hover:bg-[#B23A2F]-400 (approx lighter shade) */
+  background-color: color-mix(in srgb, var(--color-secondary) 85%, white);
 }
 
 .btn-primary:active {
-  background-color: #8F2E25; /* active:bg-[#B23A2F]-600 (approx darker shade) */
+  background-color: color-mix(in srgb, var(--color-secondary) 85%, black);
 }
 
 .btn-primary:focus-visible {
