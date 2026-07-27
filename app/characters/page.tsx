@@ -1,8 +1,8 @@
 "use client";
 
 import { Character } from "../lib/definitions"
-import CharacterCard from "../ui/characters/characterCard";
-import { Button } from "../ui/button";
+import CharacterCard from "../ui/characters/CharacterCard";
+import { Button } from "../ui/Button";
 import { useEffect, useState } from "react";
 
 export default function Page() {

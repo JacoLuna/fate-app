@@ -1,5 +1,5 @@
 
-import { CharacterForm } from "@/app/ui/characters/characterForm"
+import { CharacterForm } from "@/app/ui/characters/CharacterForm"
 import { Suspense } from "react"
 
 export default function Page(){
