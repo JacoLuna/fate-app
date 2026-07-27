@@ -1,6 +1,4 @@
-import { Nerko_One } from "next/font/google";
 import { ReactElement } from "react";
-import styles from 'characterForm.module.css';
 
 export function CustomInput(
     {   
