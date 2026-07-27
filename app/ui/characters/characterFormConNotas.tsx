@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { Character } from "@/app/lib/definitions";
-import { SkillSelect } from "./SkillSelect";
-import { Button } from "../Button";
+import { SkillSelect } from "./skillSelect";
+import { Button } from "../button";
 // import { useActionState} from "react";
 import { createCharacter, State } from "@/app/lib/actions";
 import { use, useState } from "react";

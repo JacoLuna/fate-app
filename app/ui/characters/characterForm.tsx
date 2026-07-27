@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { Character } from "@/app/lib/definitions";
-import { Button } from "../Button";
+import { Button } from "../button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SkillSelect } from "./SkillSelect";
+import { SkillSelect } from "./skillSelect";
 import { getCharacterById, getCharacters, saveCharacters } from "@/app/lib/actions";
 
 export function CharacterForm(){
