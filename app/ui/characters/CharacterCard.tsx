@@ -4,7 +4,7 @@ import { Character } from "@/app/lib/definitions";
 import { useState } from "react";
 import { Button } from "../Button";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
-import { deleteCharacter } from "@/app/lib/actions";
+import { deleteCharacter } from "@/app/lib/localStorageService";
 
 export default function CharacterCard({characterId} : {characterId: Number}) {
     let localItem = localStorage.getItem("characters");

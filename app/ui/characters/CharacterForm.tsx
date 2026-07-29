@@ -6,10 +6,9 @@ import { Button } from "../Button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SkillSelect } from "./SkillSelect";
-import { getCharacterById, getCharacters, saveCharacters } from "@/app/lib/actions";
+import { getCharacterById, getCharacters, saveCharacters } from "@/app/lib/localStorageService";
 
 export function CharacterForm(){
-
     const characterId = useSearchParams().get("id");
 
     const [character, setCharacter] = useState<Character>({
@@ -61,6 +60,10 @@ export function CharacterForm(){
         //se vuelve a ejecutar cuando las dependencias(characterId en este caso) cambian
     }, [characterId]);
 
+    function getAvailableId() : number{
+        return getCharacters().length > 0 ? getCharacters()[getCharacters().length - 1].id + 1 : 1;
+    }
+
     // el event que recibo es del onchange del campo que corresponda
     function handleFieldChange(e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
         //lo desarmo en el atributo de name y value
@@ -82,11 +85,13 @@ export function CharacterForm(){
     function handleSubmit(event : React.SubmitEvent<HTMLFormElement>){
         event.preventDefault();
         const characters = getCharacters();
-        
-        if(character.id == -1){
+        let idInArray : number = characters.findIndex( (c : Character) => c.id == character.id);
+
+        if(idInArray == -1){
+            character.id = getAvailableId();
             characters.push(character);
         }else{
-            characters[characters.findIndex( (c : Character) => c.id == character.id)] = character;
+            characters[idInArray] = character;
         }
 
         saveCharacters(characters);

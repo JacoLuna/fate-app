@@ -5,7 +5,7 @@ import { Character } from "@/app/lib/definitions";
 import { SkillSelect } from "./SkillSelect";
 import { Button } from "../Button";
 // import { useActionState} from "react";
-import { createCharacter, State } from "@/app/lib/actions";
+import { createCharacter, State } from "@/app/lib/localStorageService";
 import { use, useState } from "react";
 
 type CharacterFormProps = {
