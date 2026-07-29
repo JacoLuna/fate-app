@@ -2,10 +2,13 @@
 
 this is a personal proyect to create and store fate characters on local storage, it's a work in progress and a side  proyect to learn react/nextjs focused on frontend. You are welcome to use it and improve upon it as you please, although nothing is to stop you if i said you can not dowload it, it's a public repo lol.
 
+## host
+
+host link: [fate-app-seven.vercel.app](https://fate-app-seven.vercel.app/)
+
 ## ToDo
 List of things i will do
 - Make the ui pretier
-- Host it
 - make the character sheet printable
 - make a new character sheet design
 
