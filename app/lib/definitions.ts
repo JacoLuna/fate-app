@@ -1,14 +1,14 @@
-import { SkillsEnum } from "@/types/enums";
+import { SkillsModifierEnum, SkillsNameEnum, SkillsTypeEnum } from "@/types/enums";
 
 /* type Stress = {
     type: "physical" | "mental";
     level: 1 | 2 | 3 | 4;
 } */
 
-type Skill = {
-    //type: "average" | "fair" | "good" | "great" | "superb";
-    modifier: 1 | 2 | 3 | 4 | 5
-    name: SkillsEnum;
+export type Skill = {
+    name: SkillsNameEnum,
+    type: SkillsTypeEnum,
+    modifier: SkillsModifierEnum
 }
 
 /* export type Character = {
@@ -36,7 +36,8 @@ export type Character = {
     aspects_3 : string,
     aspects_4 : string,
     aspects_5 : string,
-    skills_superb : string,
+    skills : Skill[],
+    /* skills_superb : string,
     skills_great_1 : string,
     skills_great_2 : string,
     skills_good_1 : string,
@@ -50,7 +51,7 @@ export type Character = {
     skills_average_2 : string,
     skills_average_3 : string,
     skills_average_4 : string,
-    skills_average_5 : string,
+    skills_average_5 : string, */
     extras : string,
     stunts : string,
     stress_physical_1 : string,

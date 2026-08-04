@@ -11,7 +11,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
         <>
             <button {...rest} 
                     className={clsx(
-                        'btn-primary', 
+                        'btn-primary cursor-pointer', 
                         className
                     )}>
                 {children}

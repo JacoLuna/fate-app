@@ -1,12 +1,15 @@
 'use client';
 
 import Image from "next/image";
-import { Character } from "@/app/lib/definitions";
+import { Character, Skill } from "@/app/lib/definitions";
 import { Button } from "../Button";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SkillSelect } from "./SkillSelect";
-import { getCharacterById, getCharacters, saveCharacters } from "@/app/lib/localStorageService";
+import { getCharacterById, getCharacters, saveCharacter, saveCharacters } from "@/app/lib/localStorageService";
+import Swal from 'sweetalert2'
+import { SkillsModifierEnum, SkillsNameEnum, SkillsTypeEnum } from "@/types/enums";
+import { ReferrerEnum } from "next/dist/lib/metadata/types/metadata-types";
 
 export function CharacterForm(){
     const characterId = useSearchParams().get("id");
@@ -21,7 +24,8 @@ export function CharacterForm(){
         aspects_3 : "",
         aspects_4 : "",
         aspects_5 : "",
-        skills_superb : "",
+        skills : [],
+        /* skills_superb : "",
         skills_great_1 : "",
         skills_great_2 : "",
         skills_good_1 : "",
@@ -35,7 +39,7 @@ export function CharacterForm(){
         skills_average_2 : "",
         skills_average_3 : "",
         skills_average_4 : "",
-        skills_average_5 : "",
+        skills_average_5 : "", */
         extras : "",
         stunts : "",
         stress_physical_1 : "",
@@ -51,6 +55,34 @@ export function CharacterForm(){
         consequences_3 : "",
         consequences_4 : "",
     })
+
+    const defaultSkills = [
+        {
+            type: SkillsTypeEnum.SUPERB,
+            modifier: SkillsModifierEnum.SUPERB,
+            amount: 1
+        },
+        {
+            type: SkillsTypeEnum.GREAT,
+            modifier: SkillsModifierEnum.GREAT,
+            amount: 2
+        },
+        {
+            type: SkillsTypeEnum.GOOD,
+            modifier: SkillsModifierEnum.GOOD,
+            amount: 3
+        },
+        {
+            type: SkillsTypeEnum.FAIR,
+            modifier: SkillsModifierEnum.FAIR,
+            amount: 4
+        },
+        {
+            type: SkillsTypeEnum.AVERAGE,
+            modifier: SkillsModifierEnum.AVERAGE,
+            amount: 5
+        }
+    ];
 
     useEffect(() => {
         // se ejecuta cuando el componente se crea por primera vez
@@ -68,11 +100,11 @@ export function CharacterForm(){
     function handleFieldChange(e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
         //lo desarmo en el atributo de name y value
         let {name, value} = e.target;
-
+        
         if(e.target.type == "checkbox"){
             value = (e.target as HTMLInputElement).checked ? "true" : "false";
         }
-
+        
         //al setCharacter del useState le puedo asignar un arrow fn que siempre recibe como parametro el estado previo de mi dato/objeto
         //en este caso si a un objeto le hago {...objeto, key : value} asigno todo lo previo y cabio solo lo que quiero cambiar
         setCharacter((prev) => ({
@@ -80,6 +112,26 @@ export function CharacterForm(){
             [name] : value
         }))
         //[name]: es una propiedad dinámica, como si fuese un array asociativo. Si el input tiene name="character_name", actualiza esa propiedad. Si tiene name="refresh", actualiza esa otra.
+    }
+
+    function handleSkillChange(e : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
+        
+        const {type, modifier, number} = e.target.dataset;
+        
+        let value = Object.values(SkillsNameEnum).find( skill => skill.valueOf() == e.target.value);
+        let skillsValue = character.skills;
+        
+
+        skillsValue.push({
+            name : value ? value : SkillsNameEnum.EMPTY,
+            type : typeController(type),
+            modifier : modifierController(modifier)
+        })
+        
+        setCharacter((prev) => ({
+            ...prev,
+            "skills" : skillsValue
+        }))
     }
 
     function handleSubmit(event : React.SubmitEvent<HTMLFormElement>){
@@ -94,7 +146,18 @@ export function CharacterForm(){
             characters[idInArray] = character;
         }
 
+        console.log('character', character);
         saveCharacters(characters);
+    }
+
+    const typeController = (type : string | undefined) : SkillsTypeEnum => {
+        let control = Object.values(SkillsTypeEnum).find( skillType => skillType.valueOf() == type);
+        return control ? control : SkillsTypeEnum.UNDEFINED
+    }
+
+    const modifierController = (modifier : string | number | undefined) : SkillsModifierEnum => {
+        let control = Object.values(SkillsModifierEnum).find( skillModifier => skillModifier.valueOf() == modifier?.valueOf());
+        return control ? control : SkillsModifierEnum.UNDEFINED
     }
 
     return(
@@ -126,7 +189,7 @@ export function CharacterForm(){
                         </div>
                         
                         <div className="col-span-4 md:col-span-1 border-2 border-b-black">
-                            <input id="refresh" name="refresh" type="number" placeholder="refresh" className="h-full w-full" value={character.refresh} onChange={handleFieldChange}/>
+                            <input id="refresh" name="refresh" type="number" placeholder="refresh" className="h-full w-25 text-5xl text-center" value={character.refresh} onChange={handleFieldChange}/>
                         </div>
                     </div>
                     <div id="first_section_right" className="order-1 md:order-2 flex justify-center mb-2 md:mb-0">
@@ -185,92 +248,31 @@ export function CharacterForm(){
                             <p>Average (+1)</p>
                         </div>
                         <div className="grid grid-cols-5 grid-rows-5">
-                            <div className="col-span-5">
-                                <SkillSelect id="skills_superb" 
-                                    name="skills_superb" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_superb}
-                                    onChange={handleFieldChange}></SkillSelect>
-                            </div>
-                            <div className="col-span-5">
-                                <SkillSelect id="skills_great_1" 
-                                    name="skills_great_1" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_great_1}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_great_2" 
-                                    name="skills_great_2" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_great_2}
-                                    onChange={handleFieldChange}></SkillSelect>
-                            </div>
-                            <div className="col-span-5">
-                                <SkillSelect id="skills_good_1" 
-                                    name="skills_good_1" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_good_1}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_good_2" 
-                                    name="skills_good_2" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_good_2}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_good_3" 
-                                    name="skills_good_3" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_good_3}
-                                    onChange={handleFieldChange}></SkillSelect>
-                            </div>
-                            <div className="col-span-5">
-                                <SkillSelect id="skills_fair_1" 
-                                    name="skills_fair_1" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_fair_1}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_fair_2" 
-                                    name="skills_fair_2" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_fair_2}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_fair_3" 
-                                    name="skills_fair_3" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_fair_3}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_fair_4" 
-                                    name="skills_fair_4" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_fair_4}
-                                    onChange={handleFieldChange}></SkillSelect>
-                            </div>
+                            
+                            {defaultSkills.map( defaultSkill => (
+                                
+                                <div className="col-span-5">
+                                    {Array.from( {length : defaultSkill.amount}, (_, i) =>{
+                                        const filteredSkills = character.skills.filter( s => s.type == typeController(defaultSkill.type));
 
-                            <div className="col-span-5">
-                                <SkillSelect id="skills_average_1" 
-                                    name="skills_average_1" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_average_1}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_average_2" 
-                                    name="skills_average_2" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_average_2}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_average_3" 
-                                    name="skills_average_3" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_average_3}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_average_4" 
-                                    name="skills_average_4" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_average_4}
-                                    onChange={handleFieldChange}></SkillSelect>
-                                <SkillSelect id="skills_average_5" 
-                                    name="skills_average_5" 
-                                    selectClassName="border-2 border-b-black min-w-1/5" 
-                                    value={character.skills_average_5}
-                                    onChange={handleFieldChange}></SkillSelect>
-                            </div>
+                                        return (
+                                            <SkillSelect id={"skills_" + defaultSkill.type + "_" + i}
+                                                key={"skills_" + defaultSkill.type + "_" + i}
+                                                selectClassName="border-2 border-b-black min-w-1/5"
+                                                name={"skills_" + defaultSkill.type + "_" + i}
+                                                data-type={defaultSkill.type}
+                                                data-modifier={defaultSkill.modifier}
+                                                data-number={i}
+                                                onChange={handleSkillChange}
+                                                value={i < filteredSkills.length ? filteredSkills[i].name : ""}
+                                                >
+                                            </SkillSelect>
+                                        )
+                                    }
+                                    )}
+                                </div>
+
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -351,8 +353,30 @@ export function CharacterForm(){
                 </div>
 
                 <div className="flex justify-end w-full gap-4">
-                    <Button type="submit"><a href="/characters"> Volver </a></Button>
-                    <Button type="submit">Guardar</Button>
+                    <a href="/characters"> 
+                        <Button type="button">
+                            Volver
+                        </Button>
+                    </a>
+                    <Button type="submit" onClick={ () => {
+                        if(saveCharacter(character)){
+                            Swal.fire({
+                                title: `Character ${character.id == -1 ? "created" : "updated"}`,
+                                text: "Now you will be redirected to home",
+                                icon: "success",
+                                timer: 2000
+                            }).then( () => {
+                                redirect("/characters");
+                            });
+                        }else{
+                            Swal.fire({
+                                title: "ERROR",
+                                text: "Name and description are mandatory fields",
+                                icon: "error",
+                                timer: 2000
+                            });
+                        }
+                    }}>Guardar</Button>
                 </div>
             </form>
     )

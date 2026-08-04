@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Button } from "../Button";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { deleteCharacter } from "@/app/lib/localStorageService";
+import Swal from "sweetalert2";
+import { redirect } from "next/navigation";
 
 export default function CharacterCard({characterId} : {characterId: Number}) {
     let localItem = localStorage.getItem("characters");
@@ -26,10 +28,10 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
         ].filter(Boolean);
 
         const highConcept = aspects[0];
-        const restCount = aspects.length - 1;
+        const restCount = aspects.length > 0 ? aspects.length - 1 : 0;
         
         return (
-            <div id={"ch-card-" + characterId} className="min-h-[100px] relative w-[380px] rounded-[18px] p-6 shadow-[0_1px_0_rgba(0,0,0,0.04),0_12px_28px_-8px_rgba(35,31,28,0.25)] m-4"
+            <div id={"ch-card-" + characterId} className="min-h-25 relative w-95 rounded-[18px] p-6 shadow-[0_1px_0_rgba(0,0,0,0.04),0_12px_28px_-8px_rgba(35,31,28,0.25)] m-4"
                 style={{
                     backgroundColor: "#F7F2E7",
                     backgroundImage:
@@ -53,7 +55,7 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
                         className="text-[18px] font-bold text-[#F7F2E7]"
                         style={{ fontFamily: "'JetBrains Mono', monospace" }}
                     >
-                        {character?.refresh}
+                        {character.refresh}
                     </span>
                     <span className="text-[7px] uppercase tracking-[0.12em] text-[#F0C9B9]">
                         refresh
@@ -101,7 +103,7 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
                     <button 
                         data-characterid={characterId} 
                         onClick={() => setAspectsOpen((v) => !v)} 
-                        className="flex w-full items-center justify-between rounded-md px-1 py-1 text-left transition-colors hover:bg-black/[0.03]">
+                        className="flex w-full items-center justify-between rounded-md px-1 py-1 text-left transition-colors hover:bg-black/3">
                         <span
                             className="text-[10px] font-semibold uppercase tracking-[0.2em]"
                             style={{ color: "#8B7355" }}>
@@ -113,7 +115,7 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
                     </button>
     
                     {!aspectsOpen ? (
-                        <div className="relative mt-2 h-[38px]">
+                        <div className="relative mt-2 h-9.5">
                             {aspects.slice(0, 3).map((_, i) => {
                             // const depth = 2 - i; // draw back ones first
                             return (
@@ -183,10 +185,30 @@ export default function CharacterCard({characterId} : {characterId: Number}) {
                     <Button 
                         data-characterid={characterId} 
                         className="mt-3" 
-                        onClick={ (e : React.MouseEvent<HTMLElement>) => deleteCharacter(Number(e.currentTarget.getAttribute("data-characterid")))} >
+                        onClick={ 
+                            (e : React.MouseEvent<HTMLElement>) => {
+                                const id = e.currentTarget.getAttribute("data-characterid");
+
+                                Swal.fire({
+                                    title:`Do you want to delete ${character.character_name}?`,
+                                    text: "This action can't be undone",
+                                    icon: "question",
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Delete",
+                                    showCancelButton: true,
+                                }).then( (response) => {
+                                        if(response.isConfirmed){
+                                            deleteCharacter(Number(id))
+                                            redirect("/characters");
+                                        }
+                                    });
+                                }
+                            } >
                             <TrashIcon className="ml-auto h-5 w-5 text-gray-50"/>
                     </Button>
-                    <Button className="mt-3" ><a href={`characters/create?id= ${characterId}`}> <PencilSquareIcon className="ml-auto h-5 w-5 text-gray-50"/> </a></Button>
+                    <a href={`characters/create?id= ${characterId}`}>
+                        <Button className="mt-3" > <PencilSquareIcon className="ml-auto h-5 w-5 text-gray-50"/></Button>
+                    </a>
                 </div>
             </div>
         );

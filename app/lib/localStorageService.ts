@@ -1,3 +1,4 @@
+import { error } from "console";
 import { Character } from "./definitions";
 
 export function getCharacters(){
@@ -7,8 +8,16 @@ export function getCharacters(){
         : [];
 }
 
+/* const requiredField = [
+    "name", "description"
+] as const; */
+
+export function saveCharacter(character : Character){
+    return character.character_name != "" && character.character_description != "";
+}
+
 export function saveCharacters(characters : Character[]){
-    //faltaría controlar que realmente hubo un cambio en la librería
+    //faltaría controlar que realmente hubo un cambio
     localStorage.setItem("characters", JSON.stringify(characters));
 }
 

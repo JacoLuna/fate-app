@@ -12,6 +12,10 @@
   --color-aged-paper: #D4CBB5;
 }
 
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
   background: var(--color-primary);
   color: var(--color-ink);

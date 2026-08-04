@@ -20,9 +20,11 @@ export default function Page() {
     return (
         <>
             <div className="flex justify-end">
-                <Button>
-                    <a href="characters/create">create character</a>
-                </Button>
+                <a href="characters/create">
+                    <Button>
+                        create character
+                    </Button>
+                </a>
             </div>
 
             <div className="flex items-baseline">
